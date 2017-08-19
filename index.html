@@ -3,10 +3,12 @@
   <head>
     <meta charset="utf-8">
     <title>VR Snake</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
     <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
     <script src="./components/slither-once.js"></script>
     <script src="./components/wasd-save.js"></script>
     <script src="./components/commander.js"></script>
+    <script src="./components/collider-check.js"></script>
     <script src="./components/utils.js"></script>
     <script>
 document.addEventListener("DOMContentLoaded", function() {
@@ -15,11 +17,17 @@ document.addEventListener("DOMContentLoaded", function() {
   const head = document.createElement("a-entity");
   head.setAttribute("mixin", "sphere");
   head.setAttribute("position", "0 1.25 -5");
+  head.setAttribute("collider-check", {
+    textOutput: document.querySelector("#textOutput")
+  });
   scene.appendChild(head);
 
   const ray = document.createElement("a-entity");
-  ray.setAttribute("raycaster", { showLine: true });
-  ray.setAttribute("rotation", "0 270 0");
+  ray.setAttribute("raycaster", {
+    showLine: true,
+    far: 1.5,
+    direction: { x: 1, y: 0, z: 0 }
+  });
   head.appendChild(ray);
 
   scene.setAttribute("commander", { head });
@@ -28,6 +36,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
   </head>
   <body>
+    <div class="textOutput" id="textOutput"></div>
 
     <a-scene id="scene">
       <a-assets>

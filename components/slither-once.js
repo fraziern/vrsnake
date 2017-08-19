@@ -52,16 +52,4 @@ AFRAME.registerComponent("slither-once", {
       this.el.removeAttribute("slither-once");
     }
   }
-
-  // getYRotation: function(source, compare) {
-  //   // Remember high school math?
-  //   // u and v are vectors. return relative angle between the two in degrees
-  //   const a2 = Math.atan2(source.z, source.x);
-  //   const a1 = Math.atan2(compare.z, compare.x);
-  //   const sign = a1 > a2 ? 1 : -1;
-  //   const angle = a1 - a2;
-  //   const K = -sign * Math.PI * 2;
-  //   const answer = Math.abs(K + angle) < Math.abs(angle) ? K + angle : angle;
-  //   return radToDeg(-answer);
-  // },
 });

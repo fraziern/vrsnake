@@ -1,10 +1,13 @@
 /* global THREE AFRAME */
-
-const orientY = {
-  N: { x: 0, y: 90, z: 0 },
-  W: { x: 0, y: 180, z: 0 },
-  S: { x: 0, y: 270, z: 0 },
-  E: { x: 0, y: 0, z: 0 }
+const calcRotationY = function(source, compare) {
+  // find 2d relative rotation in degrees around y axis
+  const a2 = Math.atan2(source.z, source.x);
+  const a1 = Math.atan2(compare.z, compare.x);
+  const sign = a1 > a2 ? 1 : -1;
+  const angle = a1 - a2;
+  const K = -sign * Math.PI * 2;
+  const rotation = Math.abs(K + angle) < Math.abs(angle) ? K + angle : angle;
+  return -rotation * (180 / Math.PI); // degree to rad
 };
 
 AFRAME.registerComponent("commander", {
@@ -12,11 +15,10 @@ AFRAME.registerComponent("commander", {
     head: { type: "selector" }
   },
 
-  generateBall: function(pos, orient) {
+  generateBall: function(pos) {
     const newBall = document.createElement("a-entity");
     newBall.setAttribute("mixin", "sphere");
     newBall.setAttribute("position", pos);
-    newBall.setAttribute("rotation", orient);
     return newBall;
   },
 
@@ -26,25 +28,27 @@ AFRAME.registerComponent("commander", {
     this.radius = 2.5;
     this.delay = 1000;
 
-    // direction, momentum
+    // direction, momentum, rotation
     this.dirMomentum = new THREE.Vector3(this.radius, 0, 0);
     this.nextMomentum = this.dirMomentum.clone();
+    this.headOrientation = 0;
+    this.nextOrientation = 0;
 
     // add head to balls array
+    const headPosition = this.data.head.object3D.position;
     this.balls = [
       {
         el: this.data.head,
-        posTarget: this.data.head.object3D.position.clone()
+        posTarget: headPosition.clone()
       }
     ];
 
     // add 2 bodies
     for (let i = 1; i < 3; i++) {
-      const location = { x: -this.radius * i, y: 1.25, z: -5 };
-      const el = this.generateBall(location, orientY.E);
+      const el = this.generateBall(headPosition);
       this.balls.push({
         el,
-        posTarget: new THREE.Vector3(location.x, location.y, location.z)
+        posTarget: headPosition.clone()
       });
       this.el.appendChild(el);
     }
@@ -60,6 +64,8 @@ AFRAME.registerComponent("commander", {
     // data is {x,y,z}
     const detail = data.detail;
     this.nextMomentum.set(detail.x, detail.y, detail.z);
+    this.nextOrientation =
+      this.headOrientation + calcRotationY(this.dirMomentum, this.nextMomentum);
   },
 
   updateMomentumHandler: function(data) {
@@ -79,9 +85,19 @@ AFRAME.registerComponent("commander", {
       }
       // set head target according to wasd...
       const head = balls[0];
-      // head.posTarget.add(this.nextMomentum);
       head.posTarget.add(this.nextMomentum);
       this.updateMomentumHandler(this.nextMomentum);
+
+      // update head rotation
+      // TODO make this animated? with a "rotate-once" component?
+      if (this.nextOrientation !== this.headOrientation) {
+        AFRAME.utils.entity.setComponentProperty(
+          head.el,
+          "rotation.y",
+          this.nextOrientation
+        );
+        this.headOrientation = this.nextOrientation;
+      }
 
       // move from beginning
       balls.forEach(ball => {

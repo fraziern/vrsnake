@@ -1,7 +1,5 @@
 /* global AFRAME THREE */
 
-// TODO remove newVelocity
-
 AFRAME.registerComponent("wasd-save", {
   schema: {
     speed: { default: 2.5, type: "number" }
@@ -29,7 +27,6 @@ AFRAME.registerComponent("wasd-save", {
       this.newVelocity.set(0, 0, speed);
       break;
     }
-    // this.el.rotate = this.getYRotation(this.el.velocity, this.newVelocity);
     this.el.sceneEl.emit("changemomentum", this.newVelocity);
   }
 });
