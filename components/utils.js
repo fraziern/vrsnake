@@ -12,6 +12,7 @@ AFRAME.registerComponent("entity-generator", {
     for (var i = 0; i < this.data.num; i++) {
       var entity = document.createElement("a-entity");
       entity.setAttribute("mixin", this.data.mixin);
+      entity.setAttribute("class", this.data.mixin);
       this.el.appendChild(entity);
     }
   }
