@@ -1,6 +1,7 @@
 /* global AFRAME */
 
 // modified from https://github.com/ngokevin/kframe
+// Portions copyright (c) 2016 Kevin Ngo, used under MIT license
 AFRAME.registerComponent("entity-generator", {
   schema: {
     mixin: { default: "" },
@@ -19,6 +20,7 @@ AFRAME.registerComponent("entity-generator", {
 });
 
 // modified from https://github.com/ngokevin/kframe
+// Portions copyright (c) 2016 Kevin Ngo, used under MIT license
 AFRAME.registerComponent("random-position", {
   schema: {
     min: { default: { x: -20, y: -20, z: -20 }, type: "vec3" },
