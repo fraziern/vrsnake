@@ -30,8 +30,24 @@ document.addEventListener("DOMContentLoaded", function() {
   });
   head.appendChild(ray);
 
-  scene.setAttribute("commander", { head });
+  scene.setAttribute("snakeController", { head });
   scene.setAttribute("wasd-save", true);
+
+  scene.addEventListener("bad-collision", () => {
+    head.pause();
+    const sky = document.querySelector("#sky");
+    sky.setAttribute("color", "red");
+  });
+
+  scene.addEventListener("gobbled-apple", () => {
+    // remove apple
+    if (event.detail.classList.contains("apple")) {
+      event.detail.parentNode.removeChild(event.detail);
+    }
+    // add body
+    scene.emit("add-body", null);
+    // TODO: check if won
+  });
 });
 </script>
   </head>

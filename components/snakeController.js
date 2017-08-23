@@ -10,7 +10,7 @@ const calcRotationY = function(source, compare) {
   return -rotation * (180 / Math.PI); // degree to rad
 };
 
-AFRAME.registerComponent("commander", {
+AFRAME.registerComponent("snakeController", {
   schema: {
     head: { type: "selector" },
     radius: { default: 2.5, type: "number" },
@@ -39,23 +39,23 @@ AFRAME.registerComponent("commander", {
 
     // add 2 bodies
     for (let i = 0; i < this.data.numStartingBodies; i++) {
-      const el = this.generateAndAddBall(headPosition);
-      this.el.appendChild(el);
+      this.generateAndAddBall();
     }
 
     this.changeNextMomentumHandler = this.changeNextMomentumHandler.bind(this);
-    this.updateMomentumHandler = this.updateMomentumHandler.bind(this);
-    this.gobbledApple = this.gobbledApple.bind(this);
     this.generateAndAddBall = this.generateAndAddBall.bind(this);
-    this.hitObstacle = this.hitObstacle.bind(this);
 
     // register listeners
     this.el.addEventListener("changemomentum", this.changeNextMomentumHandler);
-    this.el.addEventListener("gobbled-apple", this.gobbledApple);
-    this.el.addEventListener("bad-collision", this.hitObstacle);
+    this.el.addEventListener("add-body", this.generateAndAddBall);
   },
 
-  generateAndAddBall: function(pos) {
+  pause: function() {
+    this.notDead = false;
+  },
+
+  generateAndAddBall: function() {
+    const pos = this.balls[this.balls.length - 1].el.object3D.position;
     // generate
     const newBall = document.createElement("a-entity");
     newBall.setAttribute("mixin", "sphere");
@@ -65,7 +65,7 @@ AFRAME.registerComponent("commander", {
       el: newBall,
       posTarget: pos.clone()
     });
-    return newBall;
+    this.el.appendChild(newBall);
   },
 
   changeNextMomentumHandler: function(data) {
@@ -74,29 +74,6 @@ AFRAME.registerComponent("commander", {
     this.nextMomentum.set(detail.x, detail.y, detail.z);
     this.nextOrientation =
       this.headOrientation + calcRotationY(this.dirMomentum, this.nextMomentum);
-  },
-
-  updateMomentumHandler: function(data) {
-    // data is a Vector3
-    this.dirMomentum.copy(data);
-  },
-
-  gobbledApple: function(event) {
-    // remove apple
-    if (event.detail.classList.contains("apple")) {
-      event.detail.parentNode.removeChild(event.detail);
-    }
-    // add body
-    const posLastBall = this.balls[this.balls.length - 1].el.object3D.position;
-    const el = this.generateAndAddBall(posLastBall);
-    this.el.appendChild(el);
-    // TODO: check if won
-  },
-
-  hitObstacle: function(event) {
-    this.notDead = false;
-    const sky = document.querySelector("#sky");
-    sky.setAttribute("color", "red");
   },
 
   tick: function(time, timeDelta) {
@@ -112,7 +89,7 @@ AFRAME.registerComponent("commander", {
       // set head target according to wasd...
       const head = balls[0];
       head.posTarget.add(this.nextMomentum);
-      this.updateMomentumHandler(this.nextMomentum);
+      this.dirMomentum.copy(this.nextMomentum);
 
       // update head rotation
       // TODO make this animated? with a "rotate-once" component?
