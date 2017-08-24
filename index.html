@@ -8,7 +8,7 @@
     <script src="./components/slither-once.js"></script>
     <script src="./components/wasd-save.js"></script>
     <script src="./components/snake-controller.js"></script>
-    <script src="./components/collider-check.js"></script>
+    <script src="./components/plane-collider.js"></script>
     <script src="./components/utils.js"></script>
     <script>
 document.addEventListener("DOMContentLoaded", function() {
@@ -17,8 +17,8 @@ document.addEventListener("DOMContentLoaded", function() {
   const head = document.createElement("a-entity");
   head.setAttribute("mixin", "sphere");
   head.setAttribute("position", "0 1.25 -5");
-  head.setAttribute("collider-check", {
-    textOutput: document.querySelector("#textOutput")
+  head.setAttribute("plane-collider", {
+    whitelist: ".nocollisions"
   });
   scene.appendChild(head);
 
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function() {
         <a-mixin id="obstacle" geometry="primitive: box; width: 5; height: 2.5" random-position="fixedY: 1.25"></a-mixin>
         <a-mixin id="apple" geometry="primitive: sphere; radius: .75" random-position="fixedY: .75" material="color: #eb3232"></a-mixin>
       </a-assets>
-      <a-plane position="-12.5 0 -4" rotation="-90 0 0" width="100" height="100" color="#7BC8A4"></a-plane>
+      <a-plane class="nocollisions" position="-12.5 0 -4" rotation="-90 0 0" width="100" height="100" color="#7BC8A4"></a-plane>
       <a-sky id="sky" color="#ECECEC"></a-sky>
       <a-entity entity-generator="mixin: obstacle"></a-entity>
       <a-entity entity-generator="mixin: apple"></a-entity>
