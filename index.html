@@ -7,7 +7,7 @@
     <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
     <script src="./components/slither-once.js"></script>
     <script src="./components/wasd-save.js"></script>
-    <script src="./components/commander.js"></script>
+    <script src="./components/snake-controller.js"></script>
     <script src="./components/collider-check.js"></script>
     <script src="./components/utils.js"></script>
     <script>
@@ -30,11 +30,11 @@ document.addEventListener("DOMContentLoaded", function() {
   });
   head.appendChild(ray);
 
-  scene.setAttribute("snakeController", { head });
+  scene.setAttribute("snake-controller", { head });
   scene.setAttribute("wasd-save", true);
 
   scene.addEventListener("bad-collision", () => {
-    head.pause();
+    scene.pause();
     const sky = document.querySelector("#sky");
     sky.setAttribute("color", "red");
   });

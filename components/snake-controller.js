@@ -10,7 +10,7 @@ const calcRotationY = function(source, compare) {
   return -rotation * (180 / Math.PI); // degree to rad
 };
 
-AFRAME.registerComponent("snakeController", {
+AFRAME.registerComponent("snake-controller", {
   schema: {
     head: { type: "selector" },
     radius: { default: 2.5, type: "number" },
