@@ -2,7 +2,7 @@
 
 AFRAME.registerComponent("plane-collider", {
   schema: {
-    objects: { default: "" },
+    objects: { default: ".collidable" },
     state: { default: "collided" }
   },
 
@@ -11,32 +11,58 @@ AFRAME.registerComponent("plane-collider", {
     this.collisions = [];
     this.elMax = new THREE.Vector3();
     this.elMin = new THREE.Vector3();
+    this.observer = null;
+
+    this.handleHit = this.handleHit.bind(this);
   },
 
-  // update object list
-  update: function() {
-    const data = this.data;
-    let objectEls;
+  remove: function() {
+    this.pause();
+  },
 
+  play: function() {
+    var sceneEl = this.el.sceneEl;
+
+    if (this.data.watch) {
+      this.observer = new MutationObserver(this.update.bind(this, null));
+      this.observer.observe(sceneEl, { childList: true, subtree: true });
+    }
+  },
+
+  pause: function() {
+    if (this.observer) {
+      this.observer.disconnect();
+      this.observer = null;
+    }
+  },
+
+  /**
+     * Update list of entities to test for collision.
+     */
+  update: function() {
+    var data = this.data;
+    var objectEls;
+
+    // Push entities into list of els to intersect.
     if (data.objects) {
-      objectEls = this.el.sceneEl.querySelectorAll(this.data.objects);
+      objectEls = this.el.sceneEl.querySelectorAll(data.objects);
     } else {
+      // If objects not defined, intersect with everything.
       objectEls = this.el.sceneEl.children;
     }
-
-    // convert to array
+    // Convert from NodeList to Array
     this.els = Array.prototype.slice.call(objectEls);
+  },
+
+  handleHit: function(hitEl) {
+    hitEl.emit("hit");
+    hitEl.addState(this.data.state);
+    this.el.emit("hit", { el: hitEl });
   },
 
   tick: (function() {
     let boundingBox = new THREE.Box3();
     return function() {
-      const handleHit = hitEl => {
-        hitEl.emit("hit");
-        hitEl.addState(this.data.state);
-        this.el.emit("hit", { el: hitEl });
-      };
-
       const updateBoundingBox = () => {
         boundingBox.setFromObject(mesh);
         this.elMin.copy(boundingBox.min);
@@ -79,7 +105,7 @@ AFRAME.registerComponent("plane-collider", {
       // update collisions
       this.els.forEach(intersect);
       // emit events
-      collisions.forEach(handleHit);
+      collisions.forEach(this.handleHit);
       // store new collisions
       this.collisions = collisions;
     };

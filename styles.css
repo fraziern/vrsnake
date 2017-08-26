@@ -1,8 +1,8 @@
 .textOutput {
   position: fixed;
   z-index: 300;
-  left: 0;
-  top: 0;
+  left: 15px;
+  top: 15px;
   font-size: 24px;
   font-family: "Arial", sans-serif;
 }
