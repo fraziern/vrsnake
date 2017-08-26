@@ -16,7 +16,7 @@
   <body>
     <div class="textOutput" id="textOutput"></div>
 
-    <a-scene id="scene" initializer fog="type: exponential; color: #AAA; density: .05">
+    <a-scene id="scene" stats initializer fog="type: exponential; color: #AAA; density: .05">
       <a-assets>
         <img id="poolTx" src="./textures/8ball.jpg" />
         <a-mixin id="body" geometry="primitive: sphere; radius: 1.25" material="src: #poolTx"></a-mixin>

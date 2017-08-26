@@ -11,17 +11,17 @@ AFRAME.registerComponent("slither-once", {
   },
 
   init: function() {
-    this.lastMoveTime = this.el.sceneEl.time;
     this.lastMoveLocation = this.el.object3D.position;
     this.target = new THREE.Vector3();
-    const targetPos = this.data.targetPos;
-    this.target.set(targetPos.x, targetPos.y, targetPos.z);
+    this.update();
   },
 
   update: function(oldData) {
-    if (this.data.targetPos != oldData.targetPos) {
+    if (oldData && this.data.targetPos != oldData.targetPos) {
       this.lastMoveTime = this.el.sceneEl.time;
-      this.lastMoveLocation = this.el.object3D.position;
+      this.lastMoveLocation.copy(this.el.object3D.position);
+      const targetPos = this.data.targetPos;
+      this.target.set(targetPos.x, targetPos.y, targetPos.z);
     }
   },
 
@@ -49,7 +49,7 @@ AFRAME.registerComponent("slither-once", {
         y: this.target.y,
         z: this.target.z
       });
-      this.el.removeAttribute("slither-once");
+      // this.el.removeAttribute("slither-once");
     }
   }
 });
