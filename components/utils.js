@@ -26,7 +26,7 @@ AFRAME.registerComponent("random-position", {
   schema: {
     min: { default: { x: -20, y: -20, z: -20 }, type: "vec3" },
     max: { default: { x: 20, y: 20, z: 20 }, type: "vec3" },
-    step: { default: 2.5, type: "number" },
+    step: { default: 5, type: "number" },
     fixedY: { type: "number" }
   },
 

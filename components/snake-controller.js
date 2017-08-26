@@ -60,7 +60,7 @@ AFRAME.registerComponent("snake-controller", {
     const pos = this.balls[this.balls.length - 1].el.object3D.position;
     // generate
     const newBall = document.createElement("a-entity");
-    newBall.setAttribute("mixin", "sphere");
+    newBall.setAttribute("mixin", "body");
     // add hit handler by default
     newBall.setAttribute("hit-handler", { emitEvent: "bad-collision" });
     newBall.setAttribute("position", pos);
