@@ -25,7 +25,7 @@ AFRAME.registerComponent("slither-once", {
     }
   },
 
-  tick: function(time, timeDelta) {
+  tick: function(time) {
     if (time - this.lastMoveTime <= this.data.animDuration) {
       // time to move
       const lastMoveLocation = this.lastMoveLocation;
