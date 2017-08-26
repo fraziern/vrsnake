@@ -18,11 +18,10 @@ document.addEventListener("DOMContentLoaded", function() {
   const head = document.createElement("a-entity");
   head.setAttribute("mixin", "head");
   head.setAttribute("position", "0 1.25 0s");
-  window.setTimeout(() => {
-    head.setAttribute("plane-collider", {
-      objects: ".collidable"
-    });
-  }, 1000);
+  head.setAttribute("plane-collider", {
+    objects: ".collidable"
+  });
+
   scene.appendChild(head);
 
   scene.setAttribute("snake-controller", { head });
