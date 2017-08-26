@@ -9,26 +9,21 @@
     <script src="./components/wasd-save.js"></script>
     <script src="./components/snake-controller.js"></script>
     <script src="./components/plane-collider.js"></script>
+    <script src="./components/hit-handler.js"></script>
     <script src="./components/utils.js"></script>
     <script>
 document.addEventListener("DOMContentLoaded", function() {
   const scene = document.querySelector("a-scene");
 
   const head = document.createElement("a-entity");
-  head.setAttribute("mixin", "sphere");
-  head.setAttribute("position", "0 1.25 -5");
-  head.setAttribute("plane-collider", {
-    whitelist: ".nocollisions"
-  });
+  head.setAttribute("mixin", "head");
+  head.setAttribute("position", "0 1.25 0s");
+  window.setTimeout(() => {
+    head.setAttribute("plane-collider", {
+      objects: ".collidable"
+    });
+  }, 1000);
   scene.appendChild(head);
-
-  const ray = document.createElement("a-entity");
-  ray.setAttribute("raycaster", {
-    showLine: true,
-    far: 1.5,
-    direction: { x: 1, y: 0, z: 0 }
-  });
-  head.appendChild(ray);
 
   scene.setAttribute("snake-controller", { head });
   scene.setAttribute("wasd-save", true);
@@ -57,14 +52,16 @@ document.addEventListener("DOMContentLoaded", function() {
     <a-scene id="scene">
       <a-assets>
         <img id="poolTx" src="./textures/8ball.jpg" />
-        <a-mixin id="sphere" class="snakeBody" geometry="primitive: sphere; radius: 1.25" material="src: #poolTx"></a-mixin>
-        <a-mixin id="obstacle" geometry="primitive: box; width: 5; height: 2.5" random-position="fixedY: 1.25"></a-mixin>
-        <a-mixin id="apple" geometry="primitive: sphere; radius: .75" random-position="fixedY: .75" material="color: #eb3232"></a-mixin>
+        <a-mixin id="head" geometry="primitive: sphere; radius: 1.25" material="src: #poolTx"></a-mixin>
+        <a-mixin id="sphere" geometry="primitive: sphere; radius: 1.25" material="src: #poolTx"></a-mixin>
+        <a-mixin id="obstacle" geometry="primitive: box; width: 5; height: 2.5" random-position="fixedY: 1.25" hit-handler="emitEvent: bad-collision"></a-mixin>
+        <a-mixin id="apple" geometry="primitive: sphere; radius: .75" random-position="fixedY: .75" material="color: #eb3232" hit-handler="emitEvent: gobbled-apple"></a-mixin>
       </a-assets>
-      <a-plane class="nocollisions" position="-12.5 0 -4" rotation="-90 0 0" width="100" height="100" color="#7BC8A4"></a-plane>
+      <a-plane position="-12.5 0 -4" rotation="-90 0 0" width="100" height="100" color="#7BC8A4"></a-plane>
       <a-sky id="sky" color="#ECECEC"></a-sky>
-      <a-entity entity-generator="mixin: obstacle"></a-entity>
-      <a-entity entity-generator="mixin: apple"></a-entity>
+      <!-- <a-entity entity-generator="mixin: obstacle; classList: collidable"></a-entity>
+      <a-entity entity-generator="mixin: apple; classList: collidable"></a-entity> -->
+      <a-entity class="odd collidable" geometry="primitive: sphere; radius: .75" position="4 .75 4" material="color: #eb3232" hit-handler="emitEvent: gobbled-apple"></a-entity>
       <a-entity position="0 1.6 10">
         <a-camera></a-camera>
       </a-entity>

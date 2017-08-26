@@ -39,7 +39,9 @@ AFRAME.registerComponent("snake-controller", {
 
     // add 2 bodies
     for (let i = 0; i < this.data.numStartingBodies; i++) {
-      this.generateAndAddBall();
+      let ball = this.generateAndAddBall();
+      // don't check collisions for these
+      ball.classList.remove("collidable");
     }
 
     this.changeNextMomentumHandler = this.changeNextMomentumHandler.bind(this);
@@ -59,6 +61,8 @@ AFRAME.registerComponent("snake-controller", {
     // generate
     const newBall = document.createElement("a-entity");
     newBall.setAttribute("mixin", "sphere");
+    // add hit handler by default
+    newBall.setAttribute("hit-handler", { emitEvent: "bad-collision" });
     newBall.setAttribute("position", pos);
     // add to ballArray
     this.balls.push({
@@ -66,6 +70,7 @@ AFRAME.registerComponent("snake-controller", {
       posTarget: pos.clone()
     });
     this.el.appendChild(newBall);
+    return newBall;
   },
 
   changeNextMomentumHandler: function(data) {
