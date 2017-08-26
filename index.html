@@ -11,44 +11,12 @@
     <script src="./components/plane-collider.js"></script>
     <script src="./components/hit-handler.js"></script>
     <script src="./components/utils.js"></script>
-    <script>
-document.addEventListener("DOMContentLoaded", function() {
-  const scene = document.querySelector("a-scene");
-
-  const head = document.createElement("a-entity");
-  head.setAttribute("mixin", "head");
-  head.setAttribute("position", "0 1.25 0s");
-  head.setAttribute("plane-collider", {
-    objects: ".collidable"
-  });
-
-  scene.appendChild(head);
-
-  scene.setAttribute("snake-controller", { head });
-  scene.setAttribute("wasd-save", true);
-
-  scene.addEventListener("bad-collision", () => {
-    scene.pause();
-    const sky = document.querySelector("#sky");
-    sky.setAttribute("color", "red");
-  });
-
-  scene.addEventListener("gobbled-apple", () => {
-    // remove apple
-    if (event.detail.classList.contains("apple")) {
-      event.detail.parentNode.removeChild(event.detail);
-    }
-    // add body
-    scene.emit("add-body", null);
-    // TODO: check if won
-  });
-});
-</script>
+    <script src="./components/initializer.js"></script>
   </head>
   <body>
     <div class="textOutput" id="textOutput"></div>
 
-    <a-scene id="scene">
+    <a-scene id="scene" initializer>
       <a-assets>
         <img id="poolTx" src="./textures/8ball.jpg" />
         <a-mixin id="head" geometry="primitive: sphere; radius: 1.25" material="src: #poolTx"></a-mixin>
@@ -58,9 +26,9 @@ document.addEventListener("DOMContentLoaded", function() {
       </a-assets>
       <a-plane position="-12.5 0 -4" rotation="-90 0 0" width="100" height="100" color="#7BC8A4"></a-plane>
       <a-sky id="sky" color="#ECECEC"></a-sky>
-      <!-- <a-entity entity-generator="mixin: obstacle; classList: collidable"></a-entity>
-      <a-entity entity-generator="mixin: apple; classList: collidable"></a-entity> -->
-      <a-entity class="odd collidable" geometry="primitive: sphere; radius: .75" position="4 .75 4" material="color: #eb3232" hit-handler="emitEvent: gobbled-apple"></a-entity>
+      <a-entity id="headObj" mixin="head" position="0 1.25 0"></a-entity>
+      <a-entity entity-generator="mixin: obstacle; classList: collidable"></a-entity>
+      <a-entity entity-generator="mixin: apple; classList: collidable"></a-entity>
       <a-entity position="0 1.6 10">
         <a-camera></a-camera>
       </a-entity>
