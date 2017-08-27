@@ -14,22 +14,26 @@
     <script src="./components/initializer.js"></script>
   </head>
   <body>
-    <div class="textOutput" id="textOutput"></div>
+    <div class="hud-text textOutput" id="textOutput"></div>
+    <div class="hud-text scoreOutput" id="scoreOutput">0</div>
 
-    <a-scene id="scene" stats initializer fog="type: exponential; color: #AAA; density: .05">
+    <a-scene id="scene" initializer fog="type: exponential; color: #AAA; density: .05">
       <a-assets>
         <img id="headTx" src="./textures/8ball.jpg" />
-        <img id="treeTx" src="./textures/tree.jpg" />
-        <a-mixin id="head" geometry="primitive: sphere; radius: 1.25" material="src: #headTx"></a-mixin>
-        <a-mixin id="body" geometry="primitive: sphere; radius: 1.25" material="color: #000"></a-mixin>
-        <a-mixin id="obstacle" geometry="primitive: cone; width: 2.5; height: 2.5" random-position="fixedY: 1.25" hit-handler="emitEvent: bad-collision" material="src: #treeTx"</a-mixin>
-        <a-mixin id="apple" geometry="primitive: sphere; radius: .75" random-position="min: -22.5 -22.5 -22.5; max: 18.5 18.5 18.5; fixedY: .75" material="color: #eb3232" hit-handler="emitEvent: gobbled-apple"></a-mixin>
+        <a-mixin id="head" geometry="primitive: sphere; radius: 1.20" material="src: #headTx"></a-mixin>
+        <a-mixin id="body" geometry="primitive: sphere; radius: 1.20" material="color: #000"></a-mixin>
+        <!-- <a-mixin id="obstacle" geometry="primitive: cone; height: 2.5" random-position="fixedY: 1.25" hit-handler="emitEvent: bad-collision"</a-mixin> -->
+        <a-mixin id="apple" geometry="primitive: sphere; radius: 1.20" random-position="fixedY: 1.25" material="color: #fff" hit-handler="emitEvent: gobbled-apple"></a-mixin>
       </a-assets>
-      <a-plane position="-12.5 0 -4" rotation="-90 0 0" width="100" height="100" color="#7BC8A4"></a-plane>
+      <a-plane position="-12.5 0 -4" rotation="-90 0 0" width="100" height="100" material="color: #7BC8A4"></a-plane>
       <a-sky id="sky" color="#ECECEC"></a-sky>
       <a-entity id="headObj" mixin="head" position="0 1.25 0"></a-entity>
-      <a-entity entity-generator="mixin: obstacle; classList: collidable"></a-entity>
+      <!-- <a-entity entity-generator="mixin: obstacle; classList: collidable"></a-entity> -->
       <a-entity entity-generator="mixin: apple; classList: collidable"></a-entity>
+      <a-box class="collidable" color="#68ab8c" depth="4" height="2" width="46" position="-23 1 0" rotation="0 90 0"></a-box>
+      <a-box class="collidable" color="#68ab8c" depth="4" height="2" width="46" position="0 1 -23" rotation="0 0 0"></a-box>
+      <a-box class="collidable" color="#68ab8c" depth="4" height="2" width="46" position="23 1 0" rotation="0 90 0"></a-box>
+      <a-box class="collidable" color="#68ab8c" depth="4" height="2" width="46" position="0 1 23" rotation="0 0 0"></a-box>
       <a-entity position="0 1.6 10">
         <a-camera></a-camera>
       </a-entity>

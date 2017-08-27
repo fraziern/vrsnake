@@ -39,9 +39,7 @@ AFRAME.registerComponent("snake-controller", {
 
     // add 2 bodies
     for (let i = 0; i < this.data.numStartingBodies; i++) {
-      let ball = this.generateAndAddBall();
-      // don't check collisions for these
-      ball.classList.remove("collidable");
+      this.generateAndAddBall();
     }
 
     this.changeNextMomentumHandler = this.changeNextMomentumHandler.bind(this);
@@ -49,7 +47,10 @@ AFRAME.registerComponent("snake-controller", {
 
     // register listeners
     this.el.addEventListener("changemomentum", this.changeNextMomentumHandler);
-    this.el.addEventListener("add-body", this.generateAndAddBall);
+    this.el.addEventListener("gobbled-apple", () => {
+      let ball = this.generateAndAddBall();
+      ball.classList.add("collidable");
+    });
   },
 
   pause: function() {

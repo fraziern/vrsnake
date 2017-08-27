@@ -12,7 +12,7 @@ AFRAME.registerComponent("plane-collider", {
     this.elMax = new THREE.Vector3();
     this.elMin = new THREE.Vector3();
     this.observer = null;
-
+    this.tick = AFRAME.utils.throttleTick(this.throttledTick, 500, this);
     this.handleHit = this.handleHit.bind(this);
   },
 
@@ -60,7 +60,7 @@ AFRAME.registerComponent("plane-collider", {
     this.el.emit("hit", { el: hitEl });
   },
 
-  tick: (function() {
+  throttledTick: (function() {
     let boundingBox = new THREE.Box3();
     return function() {
       const updateBoundingBox = () => {
@@ -100,6 +100,8 @@ AFRAME.registerComponent("plane-collider", {
         return;
       }
       var collisions = [];
+      // update locations
+      this.update();
       // update bounding Box
       updateBoundingBox();
       // update collisions

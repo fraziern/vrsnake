@@ -1,8 +1,16 @@
-.textOutput {
+.hud-text {
   position: fixed;
   z-index: 300;
-  left: 15px;
-  top: 15px;
   font-size: 24px;
   font-family: "Arial", sans-serif;
+}
+
+.textOutput {
+  left: 15px;
+  top: 15px;
+}
+
+.scoreOutput {
+  right: 15px;
+  top: 15px;
 }

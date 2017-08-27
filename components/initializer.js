@@ -2,9 +2,11 @@
 
 AFRAME.registerComponent("initializer", {
   init: function() {
+    let score = 0;
     const scene = this.el;
     const head = document.querySelector("#headObj");
     const textOutput = document.querySelector("#textOutput");
+    const scoreOutput = document.querySelector("#scoreOutput");
 
     // Let scene settle before checking collisions
     window.setTimeout(() => {
@@ -24,15 +26,14 @@ AFRAME.registerComponent("initializer", {
     scene.addEventListener("gobbled-apple", () => {
       if (scene.isPlaying) {
         // display message
-        textOutput.innerText = "Gobbled an apple!";
+        textOutput.innerText = "Picked up a cue!";
         setTimeout(() => (textOutput.innerText = ""), 1000);
         // remove apple
         if (event.detail.el.classList.contains("apple")) {
           event.detail.el.parentNode.removeChild(event.detail.el);
         }
-        // add body
-        scene.emit("add-body", null);
-        // TODO: check if won
+        // update score
+        scoreOutput.innerText = ++score;
       }
     });
   }
