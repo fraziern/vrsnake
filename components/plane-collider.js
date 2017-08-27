@@ -1,4 +1,4 @@
-/* global AFRAME THREE */
+/* global AFRAME THREE checkCollisions */
 
 AFRAME.registerComponent("plane-collider", {
   schema: {
@@ -59,28 +59,28 @@ AFRAME.registerComponent("plane-collider", {
     this.el.emit("hit", { el: hitEl });
   },
 
-  checkCollisions: function(mainMin, mainMax, els) {
-    // pure function that can be used externally
-    // check bounding box of main against all els
-    let boundingBox = new THREE.Box3();
-    let collisions = [];
-    els.forEach(el => {
-      if (!el.isEntity) return;
-      let mesh = el.getObject3D("mesh");
-      if (!mesh) return;
-      boundingBox.setFromObject(mesh);
-      let elMin = boundingBox.min;
-      let elMax = boundingBox.max;
-      let intersected =
-        mainMin.x <= elMax.x &&
-        mainMax.x >= elMin.x &&
-        (mainMin.z <= elMax.z && mainMax.z >= elMin.z);
-      if (intersected) {
-        collisions.push(el);
-      }
-    });
-    return collisions;
-  },
+  // checkCollisions: function(mainMin, mainMax, els) {
+  //   // pure function that can be used externally
+  //   // check bounding box of main against all els
+  //   let boundingBox = new THREE.Box3();
+  //   let collisions = [];
+  //   els.forEach(el => {
+  //     if (!el.isEntity) return;
+  //     let mesh = el.getObject3D("mesh");
+  //     if (!mesh) return;
+  //     boundingBox.setFromObject(mesh);
+  //     let elMin = boundingBox.min;
+  //     let elMax = boundingBox.max;
+  //     let intersected =
+  //       mainMin.x <= elMax.x &&
+  //       mainMax.x >= elMin.x &&
+  //       (mainMin.z <= elMax.z && mainMax.z >= elMin.z);
+  //     if (intersected) {
+  //       collisions.push(el);
+  //     }
+  //   });
+  //   return collisions;
+  // },
 
   throttledTick: (function() {
     let boundingBox = new THREE.Box3();
@@ -99,7 +99,8 @@ AFRAME.registerComponent("plane-collider", {
       // update bounding Box
       updateBoundingBox();
       // update collisions
-      let collisions = this.checkCollisions(this.elMin, this.elMax, this.els);
+      let collisions = checkCollisions(this.elMin, this.elMax, this.els);
+      // let collisions = this.checkCollisions(this.elMin, this.elMax, this.els);
       // emit events
       collisions.forEach(this.handleHit);
     };

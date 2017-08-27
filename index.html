@@ -5,19 +5,21 @@
     <title>VR Snake</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
+    <script src="./components/utils.js"></script>
+    <script src="./src/checkCollisions.js"></script>
+
     <script src="./components/slither-once.js"></script>
     <script src="./components/wasd-save.js"></script>
     <script src="./components/snake-controller.js"></script>
     <script src="./components/plane-collider.js"></script>
     <script src="./components/hit-handler.js"></script>
-    <script src="./components/utils.js"></script>
     <script src="./components/initializer.js"></script>
   </head>
   <body>
     <div class="hud-text textOutput" id="textOutput"></div>
     <div class="hud-text scoreOutput" id="scoreOutput">0</div>
 
-    <a-scene id="scene" initializer fog="type: exponential; color: #AAA; density: .05">
+    <a-scene id="scene" stats initializer fog="type: exponential; color: #AAA; density: .05">
       <a-assets>
         <img id="headTx" src="./textures/8ball.jpg" />
         <a-mixin id="head" geometry="primitive: sphere; radius: 1.20" material="src: #headTx"></a-mixin>
