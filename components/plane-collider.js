@@ -8,7 +8,6 @@ AFRAME.registerComponent("plane-collider", {
 
   init: function() {
     this.els = [];
-    this.collisions = [];
     this.elMax = new THREE.Vector3();
     this.elMin = new THREE.Vector3();
     this.observer = null;
@@ -60,6 +59,29 @@ AFRAME.registerComponent("plane-collider", {
     this.el.emit("hit", { el: hitEl });
   },
 
+  checkCollisions: function(mainMin, mainMax, els) {
+    // pure function that can be used externally
+    // check bounding box of main against all els
+    let boundingBox = new THREE.Box3();
+    let collisions = [];
+    els.forEach(el => {
+      if (!el.isEntity) return;
+      let mesh = el.getObject3D("mesh");
+      if (!mesh) return;
+      boundingBox.setFromObject(mesh);
+      let elMin = boundingBox.min;
+      let elMax = boundingBox.max;
+      let intersected =
+        mainMin.x <= elMax.x &&
+        mainMax.x >= elMin.x &&
+        (mainMin.z <= elMax.z && mainMax.z >= elMin.z);
+      if (intersected) {
+        collisions.push(el);
+      }
+    });
+    return collisions;
+  },
+
   throttledTick: (function() {
     let boundingBox = new THREE.Box3();
     return function() {
@@ -69,47 +91,17 @@ AFRAME.registerComponent("plane-collider", {
         this.elMax.copy(boundingBox.max);
       };
 
-      // AABB collision detection
-      const intersect = el => {
-        if (!el.isEntity) {
-          return;
-        }
-        let intersected;
-        let mesh = el.getObject3D("mesh");
-        let elMin;
-        let elMax;
-        if (!mesh) {
-          return;
-        }
-        boundingBox.setFromObject(mesh);
-        elMin = boundingBox.min;
-        elMax = boundingBox.max;
-        // for this game we only need to check 2 dimensions on a plane
-        intersected =
-          this.elMin.x <= elMax.x &&
-          this.elMax.x >= elMin.x &&
-          (this.elMin.z <= elMax.z && this.elMax.z >= elMin.z);
-        if (intersected) {
-          collisions.push(el);
-        }
-      };
-
       var mesh = this.el.getObject3D("mesh");
       // No mesh, no collisions
-      if (!mesh) {
-        return;
-      }
-      var collisions = [];
+      if (!mesh) return;
       // update locations
       this.update();
       // update bounding Box
       updateBoundingBox();
       // update collisions
-      this.els.forEach(intersect);
+      let collisions = this.checkCollisions(this.elMin, this.elMax, this.els);
       // emit events
       collisions.forEach(this.handleHit);
-      // store new collisions
-      this.collisions = collisions;
     };
   })()
 });
