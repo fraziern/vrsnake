@@ -26,6 +26,7 @@
         <a-mixin id="body" geometry="primitive: sphere; radius: 1.20" material="color: #000"></a-mixin>
         <a-mixin id="wall" geometry="primitive: box; depth: 3.5; height: 2; width: 46" material="color: #68ab8c" hit-handler="emitEvent: bad-collision"></a-mixin>
         <a-mixin id="apple" geometry="primitive: sphere; radius: 1.20" random-position="fixedY: 1.25" material="color: #fff" hit-handler="emitEvent: gobbled-apple"></a-mixin>
+        <a-mixin id="stick" geometry="radiusTop:0.22;height:50;primitive:cone" material="color:#ffbc5f" random-position="fixedY: 1.25" hit-handler="emitEvent: bad-collision"></a-mixin>
       </a-assets>
       <!-- ground -->
       <a-plane position="-12.5 0 -4" rotation="-90 0 0" width="100" height="100" material="color: #7BC8A4"></a-plane>
