@@ -16,7 +16,6 @@ AFRAME.registerComponent("hit-handler", {
   },
 
   onHit: function() {
-    console.log("collision: " + this.data.emitEvent);
     this.el.emit(this.data.emitEvent, { el: this.el });
   }
 });

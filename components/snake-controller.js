@@ -98,7 +98,6 @@ AFRAME.registerComponent("snake-controller", {
       this.dirMomentum.copy(this.nextMomentum);
 
       // update head rotation
-      // TODO make this animated? with a "rotate-once" component?
       if (this.nextOrientation !== this.headOrientation) {
         AFRAME.utils.entity.setComponentProperty(
           head.el,

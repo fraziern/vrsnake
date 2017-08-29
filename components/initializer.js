@@ -1,4 +1,7 @@
 /* global AFRAME */
+// TODO add cue stick
+// TODO keep balls from overlapping
+// TODO level select
 
 AFRAME.registerComponent("initializer", {
   init: function() {
@@ -18,7 +21,7 @@ AFRAME.registerComponent("initializer", {
 
     scene.addEventListener("bad-collision", () => {
       textOutput.innerText = "Died!";
-      scene.pause();
+      scene.pause(); // TODO stop snake but don't stop scene
       const sky = document.querySelector("#sky");
       sky.setAttribute("color", "red");
     });

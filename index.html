@@ -12,12 +12,19 @@
     <script src="./components/plane-collider.js"></script>
     <script src="./components/hit-handler.js"></script>
     <script src="./components/initializer.js"></script>
+
   </head>
   <body>
+    <div id="startScreen" class="startScreen">
+      <div class="startScreen-container">
+        <div class="startScreen__text">Welcome to Snake</div>
+        <button id="startScreen__button" class="startScreen__button">Start</button>
+      </div>
+    </div>
     <div class="hud-text textOutput" id="textOutput"></div>
     <div class="hud-text scoreOutput" id="scoreOutput">0</div>
 
-    <a-scene id="scene" initializer fog="type: exponential; color: #AAA; density: .05">
+    <a-scene id="scene" fog="type: exponential; color: #AAA; density: .05">
       <a-assets>
         <img id="headTx" src="./textures/8ball.jpg" />
         <a-mixin id="head" geometry="primitive: sphere; radius: 1.20" material="src: #headTx"></a-mixin>
@@ -45,4 +52,16 @@
       </a-entity>
     </a-scene>
   </body>
+  <script>
+  (function() {
+    let scene = document.querySelector("a-scene");
+    let startScreen = document.querySelector("#startScreen");
+    let button = document.querySelector("#startScreen__button");
+    button.addEventListener("click", e => {
+      e.preventDefault();
+      startScreen.classList.add("startScreen--hidden");
+      scene.setAttribute("initializer", true);
+    });
+  })();
+</script>
 </html>
