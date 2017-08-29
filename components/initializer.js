@@ -21,9 +21,9 @@ AFRAME.registerComponent("initializer", {
 
     scene.addEventListener("bad-collision", () => {
       textOutput.innerText = "Died!";
-      scene.pause(); // TODO stop snake but don't stop scene
       const sky = document.querySelector("#sky");
       sky.setAttribute("color", "red");
+      scene.setAttribute("fog", "type: exponential; color: #AAA; density: .00");
     });
 
     scene.addEventListener("gobbled-apple", () => {

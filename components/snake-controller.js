@@ -14,11 +14,12 @@ AFRAME.registerComponent("snake-controller", {
   schema: {
     head: { type: "selector" },
     radius: { default: 2.5, type: "number" },
-    delay: { default: 1000, type: "number" },
+    delay: { default: 1200, type: "number" },
     numStartingBodies: { default: 2, type: "number" }
   },
 
   init: function() {
+    this.delay = this.data.delay;
     this.beginDelay = this.el.sceneEl.time;
     this.notDead = true;
 
@@ -50,6 +51,10 @@ AFRAME.registerComponent("snake-controller", {
     this.el.addEventListener("gobbled-apple", () => {
       let ball = this.generateAndAddBall();
       ball.classList.add("collidable");
+      this.delay -= 100; // speed up snake
+    });
+    this.el.addEventListener("bad-collision", () => {
+      this.notDead = false;
     });
   },
 
@@ -82,8 +87,8 @@ AFRAME.registerComponent("snake-controller", {
       this.headOrientation + calcRotationY(this.dirMomentum, this.nextMomentum);
   },
 
-  tick: function(time, timeDelta) {
-    if (this.notDead && time - this.beginDelay >= this.data.delay) {
+  tick: function(time) {
+    if (this.notDead && time - this.beginDelay >= this.delay) {
       // MOVE!
       this.beginDelay = time;
       let balls = this.balls;
