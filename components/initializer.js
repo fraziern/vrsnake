@@ -20,7 +20,6 @@ AFRAME.registerComponent("initializer", {
     scene.setAttribute("wasd-save", true);
 
     scene.addEventListener("bad-collision", () => {
-      textOutput.innerText = "Died!";
       const sky = document.querySelector("#sky");
       sky.setAttribute("color", "red");
       scene.setAttribute("fog", "type: exponential; color: #AAA; density: .00");
@@ -28,9 +27,6 @@ AFRAME.registerComponent("initializer", {
 
     scene.addEventListener("gobbled-apple", () => {
       if (scene.isPlaying) {
-        // display message
-        textOutput.innerText = "Picked up a cue!";
-        setTimeout(() => (textOutput.innerText = ""), 1000);
         // remove apple
         if (event.detail.el.classList.contains("apple")) {
           event.detail.el.parentNode.removeChild(event.detail.el);
