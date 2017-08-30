@@ -11,7 +11,7 @@ AFRAME.registerComponent("plane-collider", {
     this.elMax = new THREE.Vector3();
     this.elMin = new THREE.Vector3();
     this.observer = null;
-    this.tick = AFRAME.utils.throttleTick(this.throttledTick, 500, this);
+    this.tick = AFRAME.utils.throttleTick(this.throttledTick, 50, this);
     this.handleHit = this.handleHit.bind(this);
   },
 

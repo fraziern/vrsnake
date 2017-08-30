@@ -30,17 +30,17 @@
         <a-mixin id="head" geometry="primitive: sphere; radius: 1.20" material="src: #headTx"></a-mixin>
         <a-mixin id="body" geometry="primitive: sphere; radius: 1.20" material="color: #000"></a-mixin>
         <a-mixin id="wall" geometry="primitive: box; depth: 3.5; height: 2; width: 46" material="color: #68ab8c" hit-handler="emitEvent: bad-collision"></a-mixin>
-        <a-mixin id="apple" geometry="primitive: sphere; radius: 1.20" random-position="fixedY: 1.25" material="color: #fff" hit-handler="emitEvent: gobbled-apple"></a-mixin>
+        <a-mixin id="apple" geometry="primitive: sphere; radius: 1.20" material="color: #fff" hit-handler="emitEvent: gobbled-apple"></a-mixin>
         <a-mixin id="stick" geometry="radiusTop:0.22;height:50;primitive:cone" material="color:#ffbc5f" random-position="fixedY: 1.25" hit-handler="emitEvent: bad-collision"></a-mixin>
       </a-assets>
       <!-- ground -->
-      <a-plane position="-12.5 0 -4" rotation="-90 0 0" width="100" height="100" material="color: #7BC8A4"></a-plane>
+      <!-- <a-plane position="-12.5 0 -4" rotation="-90 0 0" width="100" height="100" material="color: #7BC8A4"></a-plane> -->
       <!-- sky -->
       <a-sky id="sky" color="#ECECEC"></a-sky>
       <!-- head -->
       <a-entity id="headObj" mixin="head" position="0 1.25 0"></a-entity>
       <!-- objects to pick up -->
-      <a-entity entity-generator="mixin: apple; classList: collidable"></a-entity>
+      <a-entity random-position-entities="mixin: apple; classList: collidable; fixedY: 1.25"></a-entity>
       <!-- surrounding walls -->
       <a-entity class="collidable" mixin="wall" position="-23 1 0" rotation="0 90 0"></a-entity>
       <a-entity class="collidable" mixin="wall" position="0 1 -23" rotation="0 0 0"></a-entity>
@@ -54,14 +54,14 @@
   </body>
   <script>
   (function() {
-    let scene = document.querySelector("a-scene");
-    let startScreen = document.querySelector("#startScreen");
-    let button = document.querySelector("#startScreen__button");
-    button.addEventListener("click", e => {
-      e.preventDefault();
-      startScreen.classList.add("startScreen--hidden");
-      scene.setAttribute("initializer", true);
-    });
-  })();
+  let scene = document.querySelector("a-scene");
+  let startScreen = document.querySelector("#startScreen");
+  let button = document.querySelector("#startScreen__button");
+  button.addEventListener("click", e => {
+    e.preventDefault();
+    startScreen.classList.add("startScreen--hidden");
+    scene.setAttribute("initializer", true);
+  });
+})();
 </script>
 </html>
