@@ -33,6 +33,9 @@ AFRAME.registerComponent("initializer", {
         }
         // update score
         scoreOutput.innerText = ++score;
+        scoreOutput.classList.remove("score-animation");
+        void scoreOutput.offsetWidth;
+        scoreOutput.classList.add("score-animation");
       }
     });
   }

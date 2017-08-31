@@ -15,6 +15,19 @@
   top: 15px;
 }
 
+.score-animation {
+  animation: score-animation 1s;
+}
+
+@keyframes score-animation {
+  0% {
+    font-size: 52px;
+  }
+  100% {
+    font-size: 24px;
+  }
+}
+
 .startScreen {
   position: fixed;
   height: 100%;
