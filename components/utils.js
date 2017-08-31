@@ -5,17 +5,16 @@ AFRAME.registerComponent("random-position-entities", {
     mixin: { default: "" },
     num: { default: 15 },
     classList: { default: "" },
-    min: { default: { x: -20, y: -20, z: -20 }, type: "vec3" },
-    max: { default: { x: 20, y: 20, z: 20 }, type: "vec3" },
+    min: { default: { x: -20, y: 1.25, z: -20 }, type: "vec3" },
+    max: { default: { x: 20, y: 1.25, z: 20 }, type: "vec3" },
     step: { default: 2.5, type: "number" },
-    fixedY: { type: "number" }
+    fixedY: { type: "number" },
+    protectedArea: { default: "0 1.25 0" }
   },
 
   init: function() {
     // generate random positions
-    const positions = this.getRandomUniquePositions();
-    // exclude origin
-
+    let positions = this.getRandomUniquePositions();
     // Create entities with supplied mixin.
     for (var i = 0; i < this.data.num; i++) {
       var entity = document.createElement("a-entity");
@@ -42,13 +41,32 @@ AFRAME.registerComponent("random-position-entities", {
       return `${x} ${y} ${z}`;
     };
 
+    const inProtectedArea = coordsString => {
+      // keep random balls away from protected area (i.e. snake's start)
+      const data = this.data;
+      const coordsArr = coordsString.split(" ").map(el => Number(el));
+      const protected = data.protectedArea.split(" ").map(el => Number(el));
+      const step = data.step;
+      return (
+        coordsArr[0] >= protected[0] - step &&
+        coordsArr[0] <= protected[0] + step &&
+        coordsArr[1] >= protected[1] - step &&
+        coordsArr[1] <= protected[1] + step &&
+        coordsArr[2] >= protected[2] - step &&
+        coordsArr[2] <= protected[2] + step
+      );
+    };
+
     let positionStrings = [];
     for (let i = 0; i < this.data.num; i++) {
       let newPosition = "";
       let done = false;
       while (!done) {
         newPosition = getRandomCoordString();
-        if (!positionStrings.includes(newPosition)) {
+        if (
+          !positionStrings.includes(newPosition) &&
+          !inProtectedArea(newPosition)
+        ) {
           done = true;
         }
       }

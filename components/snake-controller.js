@@ -114,8 +114,9 @@ AFRAME.registerComponent("snake-controller", {
 
       // move from beginning
       balls.forEach(ball => {
-        AFRAME.utils.entity.setComponentProperty(ball.el, "slither-once", {
-          targetPos: ball.posTarget
+        ball.el.setAttribute("slither-once", {
+          targetPos: ball.posTarget,
+          animDuration: this.delay * 0.08
         });
       });
     }

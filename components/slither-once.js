@@ -1,13 +1,9 @@
 /* global AFRAME THREE */
-function radToDeg(rad) {
-  return rad * (180 / Math.PI);
-}
 
 AFRAME.registerComponent("slither-once", {
   schema: {
     animDuration: { default: 100, type: "number" },
-    targetPos: { type: "vec3" },
-    targetRot: { type: "vec3" }
+    targetPos: { type: "vec3" }
   },
 
   init: function() {
@@ -49,7 +45,6 @@ AFRAME.registerComponent("slither-once", {
         y: this.target.y,
         z: this.target.z
       });
-      // this.el.removeAttribute("slither-once");
     }
   }
 });
