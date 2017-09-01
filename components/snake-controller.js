@@ -24,7 +24,7 @@ AFRAME.registerComponent("snake-controller", {
     this.notDead = true;
 
     // direction, momentum, rotation
-    this.dirMomentum = new THREE.Vector3(this.data.radius, 0, 0);
+    this.dirMomentum = new THREE.Vector3(0, 0, 0);
     this.nextMomentum = this.dirMomentum.clone();
     this.headOrientation = 0;
     this.nextOrientation = 0;

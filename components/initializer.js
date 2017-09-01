@@ -8,7 +8,6 @@ AFRAME.registerComponent("initializer", {
     let score = 0;
     const scene = this.el;
     const head = document.querySelector("#headObj");
-    const textOutput = document.querySelector("#textOutput");
     const scoreOutput = document.querySelector("#scoreOutput");
 
     // Let scene settle before checking collisions
@@ -17,7 +16,7 @@ AFRAME.registerComponent("initializer", {
     }, 1000);
 
     scene.setAttribute("snake-controller", { head });
-    scene.setAttribute("wasd-save", true);
+    scene.setAttribute("wasd-relative", true); // depends on snake-controller
 
     scene.addEventListener("bad-collision", () => {
       const sky = document.querySelector("#sky");
