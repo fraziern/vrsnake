@@ -13,20 +13,20 @@ AFRAME.registerComponent("follow", {
     });
   },
   tick: function(time, timeDelta) {
-    var directionVec3 = this.directionVec3;
+    let directionVec3 = this.directionVec3;
     // Grab position vectors (THREE.Vector3) from the entities' three.js objects.
-    var targetPosition = this.data.target.object3D.position;
-    var currentPosition = this.el.object3D.position;
+    let targetPosition = this.data.target.object3D.position;
+    let currentPosition = this.el.object3D.position;
     // Subtract the vectors to get the direction the entity should head in.
     directionVec3.copy(targetPosition).sub(currentPosition);
     // Calculate the distance.
-    var distance = directionVec3.length();
+    let distance = directionVec3.length();
     // Don't go any closer if a close proximity has been reached.
     if (distance < 5) {
       return;
     }
     // Scale the direction vector's magnitude down to match the speed.
-    var factor = this.speed / distance;
+    let factor = this.speed / distance;
     ["x", "y", "z"].forEach(function(axis) {
       directionVec3[axis] *= factor * (timeDelta / 1000);
     });
