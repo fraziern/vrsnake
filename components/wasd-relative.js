@@ -30,6 +30,8 @@ AFRAME.registerComponent("wasd-relative", {
     case 68: // right
       rotated = rotate(this.newVelocity, Math.PI / 2);
       break;
+    default:
+      return;
     }
     this.newVelocity.set(rotated.x, rotated.y, rotated.z);
     this.el.sceneEl.emit("changemomentum", this.newVelocity);
