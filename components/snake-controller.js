@@ -51,7 +51,7 @@ AFRAME.registerComponent("snake-controller", {
     this.el.addEventListener("gobbled-apple", () => {
       let ball = this.generateAndAddBall();
       ball.classList.add("collidable");
-      this.delay -= 100; // speed up snake
+      this.delay -= 50; // speed up snake
     });
     this.el.addEventListener("bad-collision", () => {
       this.notDead = false;

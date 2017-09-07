@@ -1,4 +1,33 @@
 /* global AFRAME */
+const getRandomCoordString = (max, min, step, fixedY) => {
+  var y =
+    fixedY !== undefined
+      ? fixedY
+      : Math.floor(Math.random() * ((max.y - min.y) / step)) * step + min.y;
+  var x = Math.floor(Math.random() * ((max.x - min.x) / step)) * step + min.x;
+  var z = Math.floor(Math.random() * ((max.z - min.z) / step)) * step + min.z;
+  return `${x} ${y} ${z}`;
+};
+
+AFRAME.registerComponent("random-position", {
+  schema: {
+    min: { default: { x: -20, y: 1.25, z: -20 }, type: "vec3" },
+    max: { default: { x: 20, y: 1.25, z: 20 }, type: "vec3" },
+    step: { default: 2.5, type: "number" },
+    fixedY: { type: "number" }
+  },
+
+  init: function() {
+    const data = this.data;
+    const rnd = getRandomCoordString(
+      data.max,
+      data.min,
+      data.step,
+      data.fixedY
+    );
+    this.el.setAttribute("position", rnd);
+  }
+});
 
 AFRAME.registerComponent("random-position-entities", {
   schema: {
@@ -26,24 +55,10 @@ AFRAME.registerComponent("random-position-entities", {
   },
 
   getRandomUniquePositions() {
-    const getRandomCoordString = () => {
-      var max = this.data.max;
-      var min = this.data.min;
-      var step = this.data.step;
-      var y =
-        this.data.fixedY !== undefined
-          ? this.data.fixedY
-          : Math.floor(Math.random() * ((max.y - min.y) / step)) * step + min.y;
-      var x =
-        Math.floor(Math.random() * ((max.x - min.x) / step)) * step + min.x;
-      var z =
-        Math.floor(Math.random() * ((max.z - min.z) / step)) * step + min.z;
-      return `${x} ${y} ${z}`;
-    };
+    const data = this.data;
 
     const inProtectedArea = coordsString => {
       // keep random balls away from protected area (i.e. snake's start)
-      const data = this.data;
       const coordsArr = coordsString.split(" ").map(el => Number(el));
       const protected = data.protectedArea.split(" ").map(el => Number(el));
       const step = data.step;
@@ -58,11 +73,16 @@ AFRAME.registerComponent("random-position-entities", {
     };
 
     let positionStrings = [];
-    for (let i = 0; i < this.data.num; i++) {
+    for (let i = 0; i < data.num; i++) {
       let newPosition = "";
       let done = false;
       while (!done) {
-        newPosition = getRandomCoordString();
+        newPosition = getRandomCoordString(
+          data.max,
+          data.min,
+          data.step,
+          data.fixedY
+        );
         if (
           !positionStrings.includes(newPosition) &&
           !inProtectedArea(newPosition)

@@ -6,6 +6,7 @@
 AFRAME.registerComponent("initializer", {
   init: function() {
     let score = 0;
+    const bonusScore = 14;
     const scene = this.el;
     const head = document.querySelector("#headObj");
     const scoreOutput = document.querySelector("#scoreOutput");
@@ -35,6 +36,14 @@ AFRAME.registerComponent("initializer", {
         scoreOutput.classList.remove("score-animation");
         void scoreOutput.offsetWidth;
         scoreOutput.classList.add("score-animation");
+        // add apple if we're in bonus
+        if (score >= bonusScore) {
+          var entity = document.createElement("a-entity");
+          entity.setAttribute("mixin", "apple");
+          entity.setAttribute("class", "apple collidable");
+          entity.setAttribute("random-position", "fixedY: 1.25");
+          this.el.sceneEl.appendChild(entity);
+        }
       }
     });
   }

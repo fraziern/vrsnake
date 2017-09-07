@@ -12,6 +12,7 @@
     <script src="./components/plane-collider.js"></script>
     <script src="./components/hit-handler.js"></script>
     <script src="./components/initializer.js"></script>
+    <script src="./components/follow.js"></script>
 
   </head>
   <body>
@@ -23,12 +24,12 @@
     </div>
     <div class="hud-text scoreOutput" id="scoreOutput">0</div>
 
-    <a-scene id="scene" fog="type: exponential; color: #87d9b3; density: .05">
+    <a-scene id="scene" fog="type: exponential; color: #87d9b3; density: .1">
       <a-assets>
         <img id="headTx" src="./textures/8ball.jpg" />
         <a-mixin id="head" geometry="primitive: sphere; radius: 1.20" material="src: #headTx"></a-mixin>
         <a-mixin id="body" geometry="primitive: sphere; radius: 1.20" material="color: #000"></a-mixin>
-        <a-mixin id="wall" geometry="primitive: box; depth: 3.5; height: 2; width: 46" material="color: #5e5e5e" hit-handler="emitEvent: bad-collision"></a-mixin>
+        <a-mixin id="wall" geometry="primitive: box; depth: 3.5; height: 2; width: 46" material="color: #00ff13" hit-handler="emitEvent: bad-collision"></a-mixin>
         <a-mixin id="apple" geometry="primitive: sphere; radius: 1.20" material="color: #fff" hit-handler="emitEvent: gobbled-apple"></a-mixin>
         <a-mixin id="stick" geometry="radiusTop:0.22;height:50;primitive:cone" material="color:#ffbc5f" random-position="fixedY: 1.25" hit-handler="emitEvent: bad-collision"></a-mixin>
       </a-assets>
@@ -37,7 +38,9 @@
       <!-- sky -->
       <a-sky id="sky" color="#ECECEC"></a-sky>
       <!-- head -->
-      <a-entity id="headObj" mixin="head" position="0 1.25 0"></a-entity>
+      <a-entity id="headObj" mixin="head" position="0 1.25 0">
+        <a-entity light="type:point; intensity:3.25; color:#fff"></a-entity>
+      </a-entity>
       <!-- objects to pick up -->
       <a-entity random-position-entities="mixin: apple; classList: collidable; fixedY: 1.25"></a-entity>
       <!-- surrounding walls -->
@@ -46,12 +49,12 @@
       <a-entity class="collidable" mixin="wall" position="23 1 0" rotation="0 90 0"></a-entity>
       <a-entity class="collidable" mixin="wall" position="0 1 23" rotation="0 0 0"></a-entity>
       <!-- camera -->
-      <a-entity position="0 1.6 10">
+      <a-entity id="camera" position="0 1.6 10" follow="target: #headObj; speed: .5">
         <a-camera></a-camera>
       </a-entity>
       <!-- lights -->
-      <a-entity light="color:#bce4c4; type:ambient"></a-entity>
-      <a-entity position="20 24.344 20" light="type:point; intensity:3.25; color:#00ff13"></a-entity>
+      <!-- <a-entity light="color:#bce4c4; type:ambient"></a-entity> -->
+      <!-- <a-entity position="20 24.344 20" light="type:point; intensity:3.25; color:#00ff13"></a-entity> -->
     </a-scene>
   </body>
   <script>
