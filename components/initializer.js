@@ -18,6 +18,8 @@ AFRAME.registerComponent("initializer", {
       const sky = document.querySelector("#sky");
       sky.setAttribute("color", "red");
       scene.setAttribute("fog", "type: exponential; color: #AAA; density: .00");
+      const camera = document.querySelector("#camera");
+      camera.removeAttribute("follow");
     });
 
     scene.addEventListener("gobbled-apple", this.handleGobble.bind(this));
