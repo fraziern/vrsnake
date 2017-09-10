@@ -41,7 +41,7 @@ AFRAME.registerComponent("slither-once", {
         z: lastMoveLocation.z + movement.z
       });
     } else {
-      // if we should be at our target destination, move there and remove self
+      // if we should be at our target destination, move there
       this.el.setAttribute("position", {
         x: this.target.x,
         y: this.target.y,

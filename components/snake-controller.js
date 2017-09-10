@@ -52,11 +52,14 @@ AFRAME.registerComponent("snake-controller", {
     // register listeners
     this.el.addEventListener("changemomentum", this.changeNextMomentumHandler);
     this.el.addEventListener("gobbled-apple", () => {
-      let ball = this.generateAndAddBall();
-      ball.classList.add("collidable");
+      this.generateAndAddBall("collidable"); // add ball to snake
+      this.data.head.emit("blob"); // animate head
     });
     this.el.addEventListener("bad-collision", () => {
       this.notDead = false;
+      this.balls.forEach(ball => {
+        ball.el.removeAttribute("slither-once");
+      });
     });
   },
 
@@ -64,7 +67,7 @@ AFRAME.registerComponent("snake-controller", {
     this.notDead = false;
   },
 
-  generateAndAddBall: function() {
+  generateAndAddBall: function(className) {
     const pos = this.balls[this.balls.length - 1].el.object3D.position;
     // generate
     const newBall = document.createElement("a-entity");
@@ -77,6 +80,9 @@ AFRAME.registerComponent("snake-controller", {
       el: newBall,
       posTarget: pos.clone()
     });
+    if (className) {
+      newBall.classList.add(className);
+    }
     this.el.appendChild(newBall);
     return newBall;
   },

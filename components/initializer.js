@@ -2,8 +2,8 @@
 const DELAYMIN = 300;
 const SPEEDUP = 50;
 const DELAYMAX = 1200;
-const FOLLOWMIN = 0.5;
-const FOLLOWMAX = 4;
+const FOLLOWMIN = 0.4;
+const FOLLOWMAX = 4.5;
 const BONUSSCORE = 14;
 
 AFRAME.registerComponent("initializer", {
@@ -21,7 +21,6 @@ AFRAME.registerComponent("initializer", {
     scene.addEventListener("bad-collision", () => {
       const sky = document.querySelector("#sky");
       sky.setAttribute("color", "red");
-      scene.setAttribute("fog", "type: exponential; color: #AAA; density: .00");
       const camera = document.querySelector("#camera");
       camera.removeAttribute("follow");
     });

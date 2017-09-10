@@ -25,18 +25,19 @@
     </div>
     <div class="hud-text scoreOutput" id="scoreOutput">0</div>
 
-    <a-scene id="scene" fog="type: exponential; color: #87d9b3; density: .1">
+    <a-scene id="scene">
       <a-assets>
-        <a-mixin id="head" geometry="primitive: sphere; radius: 1.20" material="color: #0c120b"></a-mixin>
+        <a-mixin id="head" geometry="primitive: sphere; radius: 1.20" material="color: #000; shader: flat;"></a-mixin>
         <a-mixin id="body" grow-add geometry="primitive: sphere; radius: 1.20" material="color: #000"></a-mixin>
         <a-mixin id="wall" geometry="primitive: box; depth: 3.5; height: 2; width: 46" material="color: #00ff13" hit-handler="emitEvent: bad-collision"></a-mixin>
         <a-mixin id="apple" grow-add geometry="primitive: sphere; radius: 1.20" material="color: #fff" hit-handler="emitEvent: gobbled-apple"></a-mixin>
       </a-assets>
       <!-- sky -->
-      <a-sky id="sky" color="#ECECEC"></a-sky>
+      <a-sky id="sky" color="#fa00ff"></a-sky>
       <!-- head -->
       <a-entity id="headObj" mixin="head" position="0 1.25 0">
         <a-entity light="type:point; intensity:1.05; color:#fff"></a-entity>
+        <a-animation attribute="scale" to="1 1.2 1" begin="blob" direction="alternate" repeat="1"></a-animation>
       </a-entity>
       <!-- objects to pick up -->
       <a-entity random-position-entities="mixin: apple; classList: collidable; fixedY: 1.25"></a-entity>
