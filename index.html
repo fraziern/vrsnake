@@ -37,6 +37,7 @@
       <!-- head -->
       <a-entity id="headObj" mixin="head" position="0 1.25 0">
         <a-entity light="type:point; intensity:1.05; color:#fff"></a-entity>
+        <a-animation attribute="scale" direction="alternate" to="1 1.2 1" begin="blob" repeat="1"></a-animation>
       </a-entity>
       <!-- objects to pick up -->
       <a-entity random-position-entities="mixin: apple; classList: collidable; fixedY: 1.25"></a-entity>
