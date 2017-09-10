@@ -1,4 +1,4 @@
-/* global AFRAME THREE checkCollisions */
+/* global AFRAME THREE */
 
 AFRAME.registerComponent("plane-collider", {
   schema: {
