@@ -58,17 +58,17 @@ AFRAME.registerComponent("random-position-entities", {
     const data = this.data;
 
     const inProtectedArea = coordsString => {
-      // keep random balls away from protected area (i.e. snake's start)
+      // keep random balls away from protect area (i.e. snake's start)
       const coordsArr = coordsString.split(" ").map(el => Number(el));
-      const protected = data.protectedArea.split(" ").map(el => Number(el));
+      const protect = data.protectedArea.split(" ").map(el => Number(el));
       const step = data.step;
       return (
-        coordsArr[0] >= protected[0] - step &&
-        coordsArr[0] <= protected[0] + step &&
-        coordsArr[1] >= protected[1] - step &&
-        coordsArr[1] <= protected[1] + step &&
-        coordsArr[2] >= protected[2] - step &&
-        coordsArr[2] <= protected[2] + step
+        coordsArr[0] >= protect[0] - step &&
+        coordsArr[0] <= protect[0] + step &&
+        coordsArr[1] >= protect[1] - step &&
+        coordsArr[1] <= protect[1] + step &&
+        coordsArr[2] >= protect[2] - step &&
+        coordsArr[2] <= protect[2] + step
       );
     };
 
