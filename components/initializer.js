@@ -1,5 +1,5 @@
 /* global AFRAME */
-const DELAYMIN = 400;
+const DELAYMIN = 300;
 const SPEEDUP = 50;
 const DELAYMAX = 1200;
 const FOLLOWMIN = 0.5;
