@@ -22,11 +22,13 @@ AFRAME.registerComponent("slither-once", {
   },
 
   tick: function(time) {
+    const easeOut = (t, d) => 1 - Math.pow(1 - t / d, 4);
+
     if (time - this.lastMoveTime <= this.data.animDuration) {
       // time to move
       const lastMoveLocation = this.lastMoveLocation;
       const animElapsed = time - this.lastMoveTime;
-      const animElapsedFactor = animElapsed / this.data.animDuration;
+      const animElapsedFactor = easeOut(animElapsed, this.data.animDuration);
       let movement = {};
       ["x", "y", "z"].forEach(axis => {
         movement[axis] =

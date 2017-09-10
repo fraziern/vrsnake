@@ -1,4 +1,7 @@
 /* global THREE AFRAME */
+
+const SLITHERFACTOR = 2;
+
 const calcRotationY = function(source, compare) {
   // find 2d relative rotation in degrees around y axis
   const a2 = Math.atan2(source.z, source.x);
@@ -14,12 +17,12 @@ AFRAME.registerComponent("snake-controller", {
   schema: {
     head: { type: "selector" },
     radius: { default: 2.5, type: "number" },
-    delay: { default: 1200, type: "number" },
+    // delay: { default: 1200, type: "number" },
     numStartingBodies: { default: 2, type: "number" }
   },
 
   init: function() {
-    this.delay = this.data.delay;
+    // this.delay = this.data.delay;
     this.beginDelay = this.el.sceneEl.time;
     this.notDead = true;
 
@@ -51,7 +54,6 @@ AFRAME.registerComponent("snake-controller", {
     this.el.addEventListener("gobbled-apple", () => {
       let ball = this.generateAndAddBall();
       ball.classList.add("collidable");
-      this.delay -= 50; // speed up snake
     });
     this.el.addEventListener("bad-collision", () => {
       this.notDead = false;
@@ -88,7 +90,7 @@ AFRAME.registerComponent("snake-controller", {
   },
 
   tick: function(time) {
-    if (this.notDead && time - this.beginDelay >= this.delay) {
+    if (this.notDead && time - this.beginDelay >= this.el.sceneEl.speed) {
       // MOVE!
       this.beginDelay = time;
       let balls = this.balls;
@@ -116,7 +118,7 @@ AFRAME.registerComponent("snake-controller", {
       balls.forEach(ball => {
         ball.el.setAttribute("slither-once", {
           targetPos: ball.posTarget,
-          animDuration: this.delay * 0.08
+          animDuration: this.el.sceneEl.speed * SLITHERFACTOR
         });
       });
     }

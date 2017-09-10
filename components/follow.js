@@ -7,11 +7,8 @@ AFRAME.registerComponent("follow", {
   },
   init: function() {
     this.directionVec3 = new THREE.Vector3();
-    this.speed = this.data.speed;
-    this.el.sceneEl.addEventListener("gobbled-apple", () => {
-      this.speed += 0.2; // speed up camera move
-    });
   },
+
   tick: function(time, timeDelta) {
     let directionVec3 = this.directionVec3;
     // Grab position vectors (THREE.Vector3) from the entities' three.js objects.
@@ -26,7 +23,7 @@ AFRAME.registerComponent("follow", {
       return;
     }
     // Scale the direction vector's magnitude down to match the speed.
-    let factor = this.speed / distance;
+    let factor = this.data.speed / distance;
     ["x", "y", "z"].forEach(function(axis) {
       directionVec3[axis] *= factor * (timeDelta / 1000);
     });

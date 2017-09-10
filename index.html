@@ -27,8 +27,7 @@
 
     <a-scene id="scene" fog="type: exponential; color: #87d9b3; density: .1">
       <a-assets>
-        <img id="headTx" src="./textures/8ball.jpg" />
-        <a-mixin id="head" geometry="primitive: sphere; radius: 1.20" material="src: #headTx"></a-mixin>
+        <a-mixin id="head" geometry="primitive: sphere; radius: 1.20" material="color: #0c120b"></a-mixin>
         <a-mixin id="body" grow-add geometry="primitive: sphere; radius: 1.20" material="color: #000"></a-mixin>
         <a-mixin id="wall" geometry="primitive: box; depth: 3.5; height: 2; width: 46" material="color: #00ff13" hit-handler="emitEvent: bad-collision"></a-mixin>
         <a-mixin id="apple" grow-add geometry="primitive: sphere; radius: 1.20" material="color: #fff" hit-handler="emitEvent: gobbled-apple"></a-mixin>
