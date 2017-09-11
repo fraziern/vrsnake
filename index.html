@@ -19,15 +19,16 @@
   <body>
     <div id="startScreen" class="startScreen">
       <div class="startScreen-container">
-        <div class="startScreen__text">Welcome to Snake</div>
+        <div class="startScreen__text">A-Snake</div>
         <button id="startScreen__button" class="startScreen__button">Start</button>
+        <div id="startScreen__instructions" class="startScreen__instructions">Find A-Snake's lost body parts. Avoid everything else. A: left; D: right; Mouse: look</div>
       </div>
     </div>
     <div class="hud-text scoreOutput" id="scoreOutput">0</div>
 
     <a-scene id="scene" fog="type: exponential; color: #87d9b3; density: .1">
       <a-assets>
-        <a-mixin id="head" geometry="primitive: sphere; radius: 1.20" material="color: #0c120b"></a-mixin>
+        <a-mixin id="head" geometry="primitive: sphere; radius: 1.20" material="color: #000; shader: flat"></a-mixin>
         <a-mixin id="body" grow-add geometry="primitive: sphere; radius: 1.20" material="color: #000"></a-mixin>
         <a-mixin id="wall" geometry="primitive: box; depth: 3.5; height: 2; width: 46" material="color: #00ff13" hit-handler="emitEvent: bad-collision"></a-mixin>
         <a-mixin id="apple" grow-add geometry="primitive: sphere; radius: 1.20" material="color: #fff" hit-handler="emitEvent: gobbled-apple"></a-mixin>
@@ -59,10 +60,13 @@
   (function() {
   let scene = document.querySelector("a-scene");
   let startScreen = document.querySelector("#startScreen");
+  let inst = document.querySelector("#startScreen__instructions");
   let button = document.querySelector("#startScreen__button");
+  inst.classList.add("load");
+  button.classList.add("load");
   button.addEventListener("click", e => {
     e.preventDefault();
-    startScreen.classList.add("startScreen--hidden");
+    startScreen.classList.add("hidden");
     scene.setAttribute("initializer", true);
   });
 })();
